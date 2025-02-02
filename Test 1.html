@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Special Songs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #ff4081;
+        }
+        .song-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .song-list li {
+            background: #fff;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .content {
+            display: none;
+            margin-top: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .box {
+            width: 45%;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Special Songs for My Love ❤️</h1>
+    <ul class="song-list">
+        <li onclick="showSong('song1', 'https://www.youtube.com/embed/VIDEO_ID_1', 'This is a beautiful song about love.')">Song 1</li>
+        <li onclick="showSong('song2', 'https://www.youtube.com/embed/VIDEO_ID_2', 'A song that reminds me of us.')">Song 2</li>
+    </ul>
+    
+    <div class="content" id="song-content">
+        <div class="container">
+            <div class="box">
+                <h2>Video Lyrics</h2>
+                <iframe id="video-frame" width="100%" height="315" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="box">
+                <h2>Song Details</h2>
+                <p id="song-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSong(id, videoUrl, text) {
+            document.getElementById("video-frame").src = videoUrl;
+            document.getElementById("song-text").innerText = text;
+            document.getElementById("song-content").style.display = "block";
+        }
+    </script>
+</body>
+</html>
