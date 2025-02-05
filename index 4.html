@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Song Player</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+        }
+
+        /* PC Layout */
+        #L, #R {
+            flex: 1;
+            padding: 20px;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+
+        #L {
+            background: url('your-background.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+
+        #L::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            z-index: 0;
+        }
+
+        .song {
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s;
+        }
+
+        .song:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        #R {
+            background: #252525;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        /* Default Text */
+        #staticText {
+            display: block;
+        }
+
+        /* Video and Text Sections */
+        #RU, #RD {
+            width: 100%;
+            display: none; 
+            transition: opacity 0.5s;
+        }
+
+        #RU video {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        #toggleText {
+            display: none; /* Only for mobile */
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Mobile Layout */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            #L {
+                order: 2;
+                flex: 1;
+                padding: 10px;
+                overflow-y: auto; /* Make song list scrollable */
+                max-height: 50vh; /* Prevent overflow */
+            }
+
+            #R {
+                order: 1;
+                flex: 2;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PC Layout -->
+    <div id="L">
+        <h2>Song List</h2>
+        <div class="song" onclick="playSong(0)">Song 1</div>
+        <div class="song" onclick="playSong(1)">Song 2</div>
+        <div class="song" onclick="playSong(2)">Song 3</div>
+        <div class="song" onclick="playSong(3)">Song 4</div>
+        <div class="song" onclick="playSong(4)">Song 5</div>
+        <div class="song" onclick="playSong(5)">Song 6</div>
+    </div>
+
+    <div id="R">
+        <!-- Static text before a song is selected -->
+        <p id="staticText">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
+
+        <!-- Video Section -->
+        <div id="RU">
+            <video id="videoPlayer" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Song Details -->
+        <div id="RD">
+            <p id="songDetails"></p>
+        </div>
+
+        <!-- Toggle Button for Mobile -->
+        <button id="toggleText" onclick="toggleText()">Show Text</button>
+    </div>
+
+    <script>
+        const songs = [
+            { file: 'song1.mp4', text: 'Song 1 details...' },
+            { file: 'song2.mp4', text: 'Song 2 details...' },
+            { file: 'song3.mp4', text: 'Song 3 details...' },
+            { file: 'song4.mp4', text: 'Song 4 details...' },
+            { file: 'song5.mp4', text: 'Song 5 details...' },
+            { file: 'song6.mp4', text: 'Song 6 details...' }
+        ];
+
+        let textVisible = false;
+
+        function playSong(index) {
+            let staticText = document.getElementById('staticText');
+            let videoPlayer = document.getElementById('videoPlayer');
+            let songDetails = document.getElementById('songDetails');
+            let toggleTextButton = document.getElementById('toggleText');
+            let RU = document.getElementById('RU');
+            let RD = document.getElementById('RD');
+
+            // Hide static text
+            staticText.style.display = 'none';
+
+            // Set video and text
+            videoPlayer.src = songs[index].file;
+            songDetails.innerHTML = songs[index].text;
+
+            // Show video and text (desktop)
+            RU.style.display = 'block';
+            RD.style.display = 'block'; // Text is visible on desktop
+
+            // Mobile: Show only video at first, enable toggle button
+            if (window.innerWidth <= 768) {
+                RD.style.display = 'none'; // Hide text on mobile initially
+                toggleTextButton.style.display = 'block';
+                toggleTextButton.innerText = 'Show Text';
+            } else {
+                toggleTextButton.style.display = 'none'; // No toggle on desktop
+            }
+
+            textVisible = false;
+
+            // Auto-play next song when video ends
+            videoPlayer.onended = function() {
+                let nextIndex = (index + 1) % songs.length;
+                playSong(nextIndex);
+            };
+        }
+
+        function toggleText() {
+            let RD = document.getElementById('RD');
+            let RU = document.getElementById('RU');
+            let button = document.getElementById('toggleText');
+
+            if (!textVisible) {
+                RU.style.display = 'none';
+                RD.style.display = 'block';
+                button.innerText = 'Show Video';
+            } else {
+                RU.style.display = 'block';
+                RD.style.display = 'none';
+                button.innerText = 'Show Text';
+            }
+
+            textVisible = !textVisible;
+        }
+    </script>
+</body>
+</html>
