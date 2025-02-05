@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Song Collection</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            height: 100vh;
+        }
+        .left {
+            width: 30%;
+            border-right: 1px solid gray;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .right {
+            width: 70%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .right-content {
+            text-align: left;
+        }
+        .song-list {
+            list-style: none;
+            padding: 0;
+        }
+        .song-list li {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid gray;
+        }
+        .song-display {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+        }
+        .ru {
+            width: 100%;
+            height: 50%;
+        }
+        .rd {
+            width: 100%;
+            height: 50%;
+            overflow-y: auto;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="left">
+        <h1>My Song Collection</h1>
+        <ul class="song-list" id="songList"></ul>
+    </div>
+    
+    <div class="right" id="rightSide">
+        <div class="right-content" id="staticText">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <div class="song-display" id="songDisplay">
+            <div class="ru">
+                <video controls id="videoPlayer"></video>
+            </div>
+            <div class="rd">
+                <h2 id="songTitle"></h2>
+                <p id="songDescription"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const songs = [
+            { name: "Song One", file: "song1.mp4", description: "This is a beautiful song about love and hope." },
+            { name: "Song Two", file: "song2.mp4", description: "An upbeat song with great vibes." },
+            { name: "Song Three", file: "song3.mp4", description: "A classic tune that everyone loves." }
+        ];
+
+        const songList = document.getElementById("songList");
+        const rightSide = document.getElementById("rightSide");
+        const staticText = document.getElementById("staticText");
+        const songDisplay = document.getElementById("songDisplay");
+        const videoPlayer = document.getElementById("videoPlayer");
+        const songTitle = document.getElementById("songTitle");
+        const songDescription = document.getElementById("songDescription");
+        
+        songs.forEach(song => {
+            const li = document.createElement("li");
+            li.textContent = song.name;
+            li.addEventListener("click", () => {
+                videoPlayer.src = song.file;
+                songTitle.textContent = song.name;
+                songDescription.textContent = song.description;
+                staticText.style.display = "none";
+                songDisplay.style.display = "flex";
+            });
+            songList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

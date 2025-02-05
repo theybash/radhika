@@ -3,77 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Song Collection</title>
+    <title>Song Player</title>
     <style>
         body {
-            background-color: black;
-            color: white;
+            display: flex;
+            height: 100vh;
+            margin: 0;
             font-family: Arial, sans-serif;
-            text-align: center;
+            background-color: #121212;
+            color: white;
         }
-        .song-list {
-            list-style: none;
-            padding: 0;
+        #L, #R {
+            flex: 1;
+            padding: 20px;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
         }
-        .song-list li {
-            cursor: pointer;
-            padding: 10px;
-            border-bottom: 1px solid gray;
-        }
-        .container {
+        #L {
+                background: url('background.jpg') no-repeat center center/cover;
+                position: relative;
+            }
+
+            #L::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.07); /* Semi-transparent overlay */
+                border-radius: 20px; /* Rounded corners */
+                z-index: 0; /* Ensure it’s behind the song list */
+            }
+
+            .song {
+                position: relative;
+                z-index: 1; /* Make sure text appears above overlay */
+                cursor: pointer;
+                padding: 10px;
+                margin: 10px;
+                border-radius: 10px; /* Rounded borders for each song */
+                background: rgba(155, 155, 155, 0.22); /* Semi-transparent background */
+                transition: background 0.3s;
+            }
+
+            .song:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+        
+        #RU, #RD {
             display: none;
-            flex-direction: row;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .video-container, .text-container {
-            width: 45%;
-            padding: 10px;
-        }
-        video {
+            opacity: 0;
+            transition: opacity 0.5s;
             width: 100%;
-            height: auto;
+        }
+        #RU {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        #RU video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #RD {
+            flex: 1;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>My Song Collection</h1>
-    <ul class="song-list" id="songList"></ul>
-    
-    <div class="container" id="songDisplay">
-        <div class="video-container">
-            <video controls id="videoPlayer"></video>
-        </div>
-        <div class="text-container">
-            <h2 id="songTitle"></h2>
-            <p id="songDescription">Click on a song to see its lyrics video and details.</p>
-        </div>
+    <div id="L">
+        <h2>Song List</h2>
+        <div class="song" onclick="playSong(0)">Song 1</div>
+        <div class="song" onclick="playSong(1)">Song 2</div>
+        <div class="song" onclick="playSong(2)">Song 3</div>
     </div>
-    
+    <div id="R">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
+    </div>
     <script>
         const songs = [
-            { name: "Song One", file: "song1.mp4", description: "This is a beautiful song about love and hope." },
-            { name: "Song Two", file: "song2.mp4", description: "An upbeat song with great vibes." },
-            { name: "Song Three", file: "song3.mp4", description: "A classic tune that everyone loves." }
+            { file: 'song1.mp4', text: 'Song 1 details...' },
+            { file: 'song2.mp4', text: 'Song 2 details...' },
+            { file: 'song3.mp4', text: 'Song 3 details...' }
         ];
 
-        const songList = document.getElementById("songList");
-        const songDisplay = document.getElementById("songDisplay");
-        const videoPlayer = document.getElementById("videoPlayer");
-        const songTitle = document.getElementById("songTitle");
-        const songDescription = document.getElementById("songDescription");
-        
-        songs.forEach(song => {
-            const li = document.createElement("li");
-            li.textContent = song.name;
-            li.addEventListener("click", () => {
-                videoPlayer.src = song.file;
-                songTitle.textContent = song.name;
-                songDescription.textContent = song.description;
-                songDisplay.style.display = "flex";
-            });
-            songList.appendChild(li);
-        });
+        function playSong(index) {
+            let R = document.getElementById('R');
+            R.innerHTML = `<div id='RU'><video id='videoPlayer' controls><source src='${songs[index].file}' type='video/mp4'>Your browser does not support the video tag.</video></div>
+                            <div id='RD'><p>${songs[index].text}</p><p>Additional details about the song...</p></div>`;
+            R.style.flexDirection = 'column';
+            
+            setTimeout(() => {
+                document.getElementById('RU').style.display = 'flex';
+                document.getElementById('RD').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('RU').style.opacity = 1;
+                    document.getElementById('RD').style.opacity = 1;
+                }, 50);
+            }, 300);
+
+            let videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.onended = function() {
+                let nextIndex = (index + 1) % songs.length;
+                playSong(nextIndex);
+            };
+        }
     </script>
 </body>
 </html>

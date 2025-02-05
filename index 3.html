@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Player</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+        }
+        #L, #R {
+            flex: 1;
+            padding: 20px;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+        #L {
+            background: #1e1e1e;
+        }
+        #R {
+            background: #252525;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+        }
+        .song {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            transition: background 0.3s;
+        }
+        .song:hover {
+            background: #444;
+        }
+        #RU, #RD {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+            width: 100%;
+        }
+        #RU {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        #RU video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #RD {
+            flex: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="L">
+        <h2>Song List</h2>
+        <div class="song" onclick="playSong(0)">Song 1</div>
+        <div class="song" onclick="playSong(1)">Song 2</div>
+        <div class="song" onclick="playSong(2)">Song 3</div>
+    </div>
+    <div id="R">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
+    </div>
+    <script>
+        const songs = [
+            { file: 'song1.mp4', text: 'Song 1 details...' },
+            { file: 'song2.mp4', text: 'Song 2 details...' },
+            { file: 'song3.mp4', text: 'Song 3 details...' }
+        ];
+
+        function playSong(index) {
+            let R = document.getElementById('R');
+            R.innerHTML = `<div id='RU'><video id='videoPlayer' controls><source src='${songs[index].file}' type='video/mp4'>Your browser does not support the video tag.</video></div>
+                            <div id='RD'><p>${songs[index].text}</p><p>Additional details about the song...</p></div>`;
+            R.style.flexDirection = 'column';
+            
+            setTimeout(() => {
+                document.getElementById('RU').style.display = 'flex';
+                document.getElementById('RD').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('RU').style.opacity = 1;
+                    document.getElementById('RD').style.opacity = 1;
+                }, 50);
+            }, 300);
+
+            let videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.onended = function() {
+                let nextIndex = (index + 1) % songs.length;
+                playSong(nextIndex);
+            };
+        }
+    </script>
+</body>
+</html>
