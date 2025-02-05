@@ -3,73 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Special Songs</title>
+    <title>My Song Collection</title>
     <style>
         body {
+            background-color: black;
+            color: white;
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f9f9f9;
-        }
-        h1 {
-            color: #ff4081;
         }
         .song-list {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
         }
         .song-list li {
-            background: #fff;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 5px;
             cursor: pointer;
-            display: inline-block;
-        }
-        .content {
-            display: none;
-            margin-top: 20px;
+            padding: 10px;
+            border-bottom: 1px solid gray;
         }
         .container {
-            display: flex;
+            display: none;
+            flex-direction: row;
             justify-content: center;
-            gap: 20px;
             margin-top: 20px;
         }
-        .box {
+        .video-container, .text-container {
             width: 45%;
             padding: 10px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        video {
+            width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <h1>Special Songs for My Love ❤️</h1>
-    <ul class="song-list">
-        <li onclick="showSong('song1', 'https://www.youtube.com/embed/VIDEO_ID_1', 'This is a beautiful song about love.')">Song 1</li>
-        <li onclick="showSong('song2', 'https://www.youtube.com/embed/VIDEO_ID_2', 'A song that reminds me of us.')">Song 2</li>
-    </ul>
+    <h1>My Song Collection</h1>
+    <ul class="song-list" id="songList"></ul>
     
-    <div class="content" id="song-content">
-        <div class="container">
-            <div class="box">
-                <h2>Video Lyrics</h2>
-                <iframe id="video-frame" width="100%" height="315" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="box">
-                <h2>Song Details</h2>
-                <p id="song-text"></p>
-            </div>
+    <div class="container" id="songDisplay">
+        <div class="video-container">
+            <video controls id="videoPlayer"></video>
+        </div>
+        <div class="text-container">
+            <h2 id="songTitle"></h2>
+            <p id="songDescription">Click on a song to see its lyrics video and details.</p>
         </div>
     </div>
-
+    
     <script>
-        function showSong(id, videoUrl, text) {
-            document.getElementById("video-frame").src = videoUrl;
-            document.getElementById("song-text").innerText = text;
-            document.getElementById("song-content").style.display = "block";
-        }
+        const songs = [
+            { name: "Song One", file: "song1.mp4", description: "This is a beautiful song about love and hope." },
+            { name: "Song Two", file: "song2.mp4", description: "An upbeat song with great vibes." },
+            { name: "Song Three", file: "song3.mp4", description: "A classic tune that everyone loves." }
+        ];
+
+        const songList = document.getElementById("songList");
+        const songDisplay = document.getElementById("songDisplay");
+        const videoPlayer = document.getElementById("videoPlayer");
+        const songTitle = document.getElementById("songTitle");
+        const songDescription = document.getElementById("songDescription");
+        
+        songs.forEach(song => {
+            const li = document.createElement("li");
+            li.textContent = song.name;
+            li.addEventListener("click", () => {
+                videoPlayer.src = song.file;
+                songTitle.textContent = song.name;
+                songDescription.textContent = song.description;
+                songDisplay.style.display = "flex";
+            });
+            songList.appendChild(li);
+        });
     </script>
 </body>
 </html>
