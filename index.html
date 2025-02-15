@@ -11,7 +11,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #121212;
-            color: white;
+            color: rgb(114, 114, 78);
         }
 
         /* PC Layout */
@@ -23,7 +23,7 @@
         }
 
         #L {
-            background: url('your-background.jpg') no-repeat center center/cover;
+            background: url('background7.jpg') no-repeat center center/cover;
             position: relative;
         }
 
@@ -34,7 +34,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 20px;
             z-index: 0;
         }
@@ -46,19 +46,19 @@
             padding: 10px;
             margin: 10px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.187);
             transition: background 0.3s;
         }
 
         .song:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.377);
         }
 
         #R {
-            background: #252525;
+            background: #dedbd0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             text-align: center;
             height: 100%;
@@ -66,7 +66,10 @@
 
         /* Default Text */
         #staticText {
-            display: block;
+            align-self: flex-start;
+            text-align: left;
+            width: 100%; /* Ensures full width */
+            padding-left: 20px; /* Adjust as needed */
         }
 
         /* Video and Text Sections */
@@ -122,18 +125,22 @@
 <body>
     <!-- PC Layout -->
     <div id="L">
-        <h2>Song List</h2>
-        <div class="song" onclick="playSong(0)">Song 1</div>
-        <div class="song" onclick="playSong(1)">Song 2</div>
-        <div class="song" onclick="playSong(2)">Song 3</div>
-        <div class="song" onclick="playSong(3)">Song 4</div>
-        <div class="song" onclick="playSong(4)">Song 5</div>
-        <div class="song" onclick="playSong(5)">Song 6</div>
+        <h2>Milestones in songs</h2>
+        <div class="song" onclick="playSong(0)"><b>Your unfair advantage</b></div>
+        <div class="song" onclick="playSong(1)"><b>The song I used to associate with you when I fell for you</b></div>
+        <div class="song" onclick="playSong(2)"><b>Surprise lmao</b></div>
+        <div class="song" onclick="playSong(3)"><b>First time I cried of happiness probably</b></div>
+        <div class="song" onclick="playSong(4)"><b>You should send songs more</b></div>
+        
     </div>
 
     <div id="R">
         <!-- Static text before a song is selected -->
-        <p id="staticText">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
+        <p id="staticText" style="text-align: left;">Hey Love, </p>
+        <p id="staticText1" style="text-align: left;">A couple months ago you told me to make you a playlist and I was so sad that I won't be able to tell you why I added the songs I added. </p>
+        <p id="staticText2" style="text-align: left;">There were two ways to tell you what these songs remind me of about you. Either I keep interrupting when you are listening to the songs or do this.</p>
+        <p id="staticText3" style="text-align: left;">I briefly considered recording a voice note in between each song but I realized I have an entire life to annoy you, I can let you go this Valentine's Day. (I am a little late, I know)</p>
+        <p id="staticText4" style="text-align: left;">So I did this, a love letter with songs. :')</p>
 
         <!-- Video Section -->
         <div id="RU">
@@ -154,11 +161,11 @@
 
     <script>
         const songs = [
-            { file: 'song1.mp4', text: 'Song 1 details...' },
-            { file: 'song2.mp4', text: 'Song 2 details...' },
-            { file: 'song3.mp4', text: 'Song 3 details...' },
-            { file: 'song4.mp4', text: 'Song 4 details...' },
-            { file: 'song5.mp4', text: 'Song 5 details...' },
+            { file: 'song1.mp4', text: 'This song makes me get down on my knees in surrender to you, you sent me this in a reel of the movie Gangubai, it got me to thinking how well you took care of me when I couldn\'t even handle the sadness of others, let alone mine. My throat has a catch while writing this thing. You have all of me' },
+            { file: 'song2.mp4', text: 'God every word in this song rings true, you are so serene and free and I am just in awe of how light you make things' },
+            { file: 'song3.mp4', text: 'Yooo... it was so funny when you realised that this man is capable of singing correct lyrics, your face was priceless which well, it always have been' },
+            { file: 'song4.mp4', text: 'This song is when I realised that yeah, this hottie really loves me and is not playing a huge fucking prank on me, lmao jokes on her' },
+            { file: 'song5.mp4', text: 'You sent this song when we were fighting, I think this one song literally fixed a fight, I love you so much, it\'s not cool how easily I melt infront of you, thank god you found me before the Army people did' },
             { file: 'song6.mp4', text: 'Song 6 details...' }
         ];
 
@@ -174,6 +181,11 @@
 
             // Hide static text
             staticText.style.display = 'none';
+            staticText1.style.display = 'none';
+            staticText2.style.display = 'none';
+            staticText3.style.display = 'none';
+            staticText4.style.display = 'none';
+
 
             // Set video and text
             videoPlayer.src = songs[index].file;
